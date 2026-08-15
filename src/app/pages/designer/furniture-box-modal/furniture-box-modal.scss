@@ -1,0 +1,128 @@
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--rm-text-secondary);
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    color: var(--rm-text-primary);
+    background: var(--rm-bg-hover);
+  }
+}
+
+.modal-title {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--rm-accent);
+  margin-bottom: 6px;
+}
+
+.modal-subtitle {
+  font-size: 14px;
+  color: var(--rm-text-secondary);
+  margin-bottom: 20px;
+}
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.chip {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--rm-border);
+  background: var(--rm-bg-inset);
+  color: var(--rm-text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: var(--rm-accent);
+  }
+
+  &.selected {
+    background: var(--rm-accent-bg-strong);
+    border-color: var(--rm-accent);
+    color: var(--rm-accent);
+    font-weight: 700;
+  }
+}
+
+.name-input {
+  margin-bottom: 20px;
+}
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rm-text-secondary);
+  margin-bottom: 8px;
+}
+
+textarea.name-input,
+textarea {
+  resize: none;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--rm-accent);
+  color: var(--rm-accent-contrast);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--rm-accent-hover);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.btn-danger {
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--rm-border);
+  background: transparent;
+  color: var(--rm-danger);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--rm-danger);
+    background: rgba(217, 112, 102, 0.1);
+  }
+}

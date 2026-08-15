@@ -1,0 +1,60 @@
+<nz-modal
+  [nzVisible]="visible()"
+  [nzFooter]="null"
+  [nzClosable]="false"
+  [nzCentered]="true"
+  nzWidth="600px"
+  (nzOnCancel)="onCancel()"
+>
+  <ng-container *nzModalContent>
+    <button type="button" class="close-btn" (click)="onCancel()" aria-label="Schließen">
+      <nz-icon nzType="close" nzTheme="outline" />
+    </button>
+
+    <p class="step-indicator">Schritt {{ step() }} von 2</p>
+
+    @if (step() === 1) {
+      <h2 class="modal-title">Welcher Raum?</h2>
+      <div class="chip-grid">
+        @for (room of roomTypes; track room) {
+          <button
+            type="button"
+            class="chip"
+            [class.selected]="selectedRoom() === room"
+            (click)="selectRoom(room)"
+          >
+            {{ room }}
+          </button>
+        }
+      </div>
+      <div class="modal-actions">
+        <span></span>
+        <button type="button" class="btn-primary" [disabled]="!selectedRoom()" (click)="goNext()">
+          Weiter
+          <nz-icon nzType="arrow-right" nzTheme="outline" />
+        </button>
+      </div>
+    } @else {
+      <h2 class="modal-title">Welcher Stil?</h2>
+      <div class="chip-grid">
+        @for (style of styleTypes; track style) {
+          <button
+            type="button"
+            class="chip"
+            [class.selected]="selectedStyle() === style"
+            (click)="selectStyle(style)"
+          >
+            {{ style }}
+          </button>
+        }
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="goBack()">Zurück</button>
+        <button type="button" class="btn-primary" [disabled]="!selectedStyle()" (click)="confirm()">
+          Übernehmen
+          <nz-icon nzType="check" nzTheme="outline" />
+        </button>
+      </div>
+    }
+  </ng-container>
+</nz-modal>

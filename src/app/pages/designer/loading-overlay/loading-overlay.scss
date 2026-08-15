@@ -1,0 +1,96 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 11, 13, 0.72);
+  backdrop-filter: blur(3px);
+  border-radius: inherit;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 48px;
+  border-radius: var(--rm-radius-xl);
+  background: var(--rm-bg-panel-raised);
+  border: 1px solid var(--rm-border);
+  box-shadow: var(--rm-shadow-lg);
+  min-width: 320px;
+}
+
+.spinner {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.spinner-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid var(--rm-border);
+  border-top-color: var(--rm-accent);
+  animation: spin 1s linear infinite;
+}
+
+.spinner-mark {
+  font-size: 22px;
+  color: var(--rm-accent);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--rm-text-primary);
+  margin-bottom: 8px;
+}
+
+.message {
+  font-size: 13.5px;
+  color: var(--rm-text-secondary);
+  margin-bottom: 22px;
+  min-height: 18px;
+}
+
+.progress-track {
+  width: 220px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--rm-bg-inset);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 40%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--rm-accent), var(--rm-accent-hover));
+  animation: slide 1.3s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(120%);
+  }
+  100% {
+    transform: translateX(280%);
+  }
+}

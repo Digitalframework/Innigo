@@ -1,0 +1,211 @@
+<div class="profile-page">
+  <header class="page-header">
+    <h1>Profil</h1>
+    <p>Verwalte deine Kontodaten, Adresse und Zahlungsmethode.</p>
+  </header>
+
+  <div class="profile-grid">
+    <div class="col col-narrow">
+      <section class="card avatar-card">
+        <div class="avatar-wrap">
+          @if (userStore.avatarUrl(); as avatar) {
+            <img [src]="avatar" alt="Profilbild" class="avatar-img" />
+          } @else {
+            <div class="avatar-fallback">
+              <nz-icon nzType="user" nzTheme="outline" />
+            </div>
+          }
+        </div>
+        <h3 class="avatar-name">{{ userStore.name() }}</h3>
+        <p class="avatar-email">{{ userStore.email() }}</p>
+
+        <nz-upload
+          class="avatar-upload"
+          [nzShowUploadList]="false"
+          [nzBeforeUpload]="avatarBeforeUpload"
+          nzAccept="image/png,image/jpeg,image/webp"
+        >
+          <button type="button" class="btn-ghost full-width">
+            <nz-icon nzType="camera" nzTheme="outline" /> Bild ändern
+          </button>
+        </nz-upload>
+      </section>
+
+      <section class="card plan-card">
+        <div class="card-header">
+          <span class="card-title"><nz-icon nzType="crown" nzTheme="outline" /> Aktiver Tarif</span>
+        </div>
+        <p class="plan-name">{{ userStore.plan().name }}</p>
+        <p class="plan-desc">{{ userStore.plan().priceLabel }} · {{ userStore.plan().tokensPerMonth }} Token/Monat</p>
+        <a class="btn-primary full-width" routerLink="/guthaben">
+          <nz-icon nzType="wallet" nzTheme="outline" /> Guthaben &amp; Tarife
+        </a>
+      </section>
+    </div>
+
+    <div class="col col-wide">
+      <section class="card">
+        <div class="card-header">
+          <span class="card-title"><nz-icon nzType="user" nzTheme="outline" /> Konto</span>
+        </div>
+
+        <div class="field-row">
+          <div class="field-info">
+            <span class="field-label">Benutzername</span>
+            @if (editingName()) {
+              <input
+                nz-input
+                [ngModel]="nameDraft()"
+                (ngModelChange)="nameDraft.set($event)"
+                (keyup.enter)="saveName()"
+              />
+            } @else {
+              <span class="field-value">{{ userStore.name() }}</span>
+            }
+          </div>
+          @if (editingName()) {
+            <button type="button" class="btn-primary" (click)="saveName()">Speichern</button>
+          } @else {
+            <button type="button" class="link-btn" (click)="startEditName()">Bearbeiten</button>
+          }
+        </div>
+
+        <div class="field-row">
+          <div class="field-info">
+            <span class="field-label">E-Mail</span>
+            @if (editingEmail()) {
+              <input
+                nz-input
+                type="email"
+                [ngModel]="emailDraft()"
+                (ngModelChange)="emailDraft.set($event)"
+                (keyup.enter)="saveEmail()"
+              />
+            } @else {
+              <span class="field-value">{{ userStore.email() }}</span>
+            }
+          </div>
+          @if (editingEmail()) {
+            <button type="button" class="btn-primary" (click)="saveEmail()">Speichern</button>
+          } @else {
+            <button type="button" class="link-btn" (click)="startEditEmail()">Bearbeiten</button>
+          }
+        </div>
+
+        <div class="field-row">
+          <div class="field-info">
+            <span class="field-label">Passwort</span>
+            <span class="field-value">••••••••••</span>
+          </div>
+          <button type="button" class="link-btn" (click)="togglePasswordForm()">
+            {{ changingPassword() ? 'Abbrechen' : 'Passwort ändern' }}
+          </button>
+        </div>
+
+        @if (changingPassword()) {
+          <div class="password-form">
+            <input
+              nz-input
+              type="password"
+              placeholder="Neues Passwort"
+              [ngModel]="newPassword()"
+              (ngModelChange)="newPassword.set($event)"
+            />
+            <input
+              nz-input
+              type="password"
+              placeholder="Passwort bestätigen"
+              [ngModel]="confirmPassword()"
+              (ngModelChange)="confirmPassword.set($event)"
+            />
+            <button type="button" class="btn-primary" (click)="submitPassword()">Aktualisieren</button>
+          </div>
+        }
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <span class="card-title"><nz-icon nzType="environment" nzTheme="outline" /> Adresse</span>
+          @if (!editingAddress()) {
+            <button type="button" class="link-btn" (click)="startEditAddress()">Bearbeiten</button>
+          }
+        </div>
+
+        @if (editingAddress()) {
+          <div class="address-form">
+            <input
+              nz-input
+              placeholder="Straße und Hausnummer"
+              [ngModel]="addressDraft().street"
+              (ngModelChange)="addressDraft.set({ ...addressDraft(), street: $event })"
+            />
+            <div class="address-form-row">
+              <input
+                nz-input
+                placeholder="PLZ"
+                [ngModel]="addressDraft().postalCode"
+                (ngModelChange)="addressDraft.set({ ...addressDraft(), postalCode: $event })"
+              />
+              <input
+                nz-input
+                placeholder="Ort"
+                [ngModel]="addressDraft().city"
+                (ngModelChange)="addressDraft.set({ ...addressDraft(), city: $event })"
+              />
+            </div>
+            <input
+              nz-input
+              placeholder="Land"
+              [ngModel]="addressDraft().country"
+              (ngModelChange)="addressDraft.set({ ...addressDraft(), country: $event })"
+            />
+            <button type="button" class="btn-primary" (click)="saveAddress()">Speichern</button>
+          </div>
+        } @else {
+          <p class="address-text">
+            {{ userStore.address().street }}<br />
+            {{ userStore.address().postalCode }} {{ userStore.address().city }}<br />
+            {{ userStore.address().country }}
+          </p>
+        }
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <span class="card-title"><nz-icon nzType="credit-card" nzTheme="outline" /> Zahlungsmethode</span>
+          @if (!editingPayment()) {
+            <button type="button" class="link-btn" (click)="startEditPayment()">Ändern</button>
+          }
+        </div>
+
+        @if (editingPayment()) {
+          <div class="payment-form">
+            <input
+              nz-input
+              placeholder="Kartennummer"
+              [ngModel]="cardNumberDraft()"
+              (ngModelChange)="cardNumberDraft.set($event)"
+            />
+            <input
+              nz-input
+              placeholder="MM/JJ"
+              [ngModel]="cardExpiryDraft()"
+              (ngModelChange)="cardExpiryDraft.set($event)"
+            />
+            <button type="button" class="btn-primary" (click)="savePayment()">Speichern</button>
+          </div>
+        } @else if (userStore.paymentMethod(); as pm) {
+          <div class="payment-info">
+            <span class="payment-icon"><nz-icon nzType="credit-card" nzTheme="outline" /></span>
+            <div>
+              <p class="payment-brand">{{ pm.brand }} •••• {{ pm.last4 }}</p>
+              <p class="payment-expiry">Gültig bis {{ pm.expiry }}</p>
+            </div>
+          </div>
+        } @else {
+          <p class="field-value">Keine Zahlungsmethode hinterlegt.</p>
+        }
+      </section>
+    </div>
+  </div>
+</div>

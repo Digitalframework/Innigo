@@ -21,8 +21,6 @@ export class DesignerStore {
   readonly room = signal<RoomType | null>(null);
   readonly style = signal<StyleType | null>(null);
   readonly furniture = signal<FurnitureItem[]>([]);
-  /** IDs der im Katalog-Tree ausgewählten Möbel (Redesign-Modus). */
-  readonly catalogSelection = signal<string[]>([]);
   readonly generationCount = signal<GenerationCount>(1);
   readonly isGenerating = signal(false);
   readonly results = signal<GeneratedResult[]>([]);
@@ -63,12 +61,6 @@ export class DesignerStore {
     this.furniture.update((list) => list.filter((item) => item.id !== id));
   }
 
-  toggleCatalogItem(itemId: string): void {
-    this.catalogSelection.update((ids) =>
-      ids.includes(itemId) ? ids.filter((id) => id !== itemId) : [...ids, itemId],
-    );
-  }
-
   setGenerationCount(count: GenerationCount): void {
     this.generationCount.set(count);
   }
@@ -79,7 +71,6 @@ export class DesignerStore {
     this.room.set(null);
     this.style.set(null);
     this.furniture.set([]);
-    this.catalogSelection.set([]);
     this.results.set([]);
     this.isGenerating.set(false);
   }
