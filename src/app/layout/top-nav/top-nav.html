@@ -1,0 +1,23 @@
+<header class="top-nav">
+  <a class="brand" routerLink="/designer">
+    <span class="brand-mark">✽</span>
+    <span class="brand-name">Roomly</span>
+  </a>
+
+  <nav class="nav-links">
+    <a routerLink="/designer" routerLinkActive="active" class="nav-link">Designer</a>
+    <a routerLink="/profil" routerLinkActive="active" class="nav-link">Profil</a>
+    <a routerLink="/guthaben" routerLinkActive="active" class="nav-link">Guthaben &amp; Tarife</a>
+  </nav>
+
+  <div class="nav-actions">
+    <a class="token-pill" routerLink="/guthaben">{{ userStore.tokens() }} Token</a>
+    <a class="avatar" routerLink="/profil" aria-label="Profil">
+      @if (userStore.avatarUrl(); as avatar) {
+        <img [src]="avatar" alt="" />
+      } @else {
+        <nz-icon nzType="user" nzTheme="outline" />
+      }
+    </a>
+  </div>
+</header>

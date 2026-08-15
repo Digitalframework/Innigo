@@ -1,0 +1,108 @@
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 68px;
+  padding: 0 28px;
+  flex: 0 0 auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--rm-text-primary);
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--rm-bg-panel-raised);
+  border: 1px solid var(--rm-border);
+  color: var(--rm-accent);
+  font-size: 16px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 auto;
+  padding: 4px;
+  border-radius: var(--rm-radius-lg);
+}
+
+.nav-link {
+  padding: 8px 18px;
+  border-radius: var(--rm-radius-md);
+  color: var(--rm-text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    color: var(--rm-text-primary);
+  }
+
+  &.active {
+    background: var(--rm-bg-panel-raised);
+    color: var(--rm-text-primary);
+    border: 1px solid var(--rm-border);
+  }
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.token-pill {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--rm-bg-panel-raised);
+  border: 1px solid var(--rm-border);
+  color: var(--rm-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--rm-accent);
+    color: var(--rm-accent);
+  }
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--rm-bg-panel-raised);
+  border: 1px solid var(--rm-border);
+  color: var(--rm-text-secondary);
+  overflow: hidden;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--rm-text-primary);
+    border-color: var(--rm-accent);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

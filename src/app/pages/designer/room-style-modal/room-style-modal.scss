@@ -1,0 +1,114 @@
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--rm-text-secondary);
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    color: var(--rm-text-primary);
+    background: var(--rm-bg-hover);
+  }
+}
+
+.step-indicator {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rm-text-tertiary);
+  margin-bottom: 8px;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--rm-accent);
+  margin-bottom: 24px;
+}
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 140px;
+}
+
+.chip {
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--rm-border);
+  background: var(--rm-bg-inset);
+  color: var(--rm-text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: var(--rm-accent);
+  }
+
+  &.selected {
+    background: var(--rm-accent-bg-strong);
+    border-color: var(--rm-accent);
+    color: var(--rm-accent);
+    font-weight: 700;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--rm-accent);
+  color: var(--rm-accent-contrast);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--rm-accent-hover);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--rm-border);
+  background: transparent;
+  color: var(--rm-text-primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--rm-accent);
+    color: var(--rm-accent);
+  }
+}

@@ -1,0 +1,60 @@
+<nz-modal
+  [nzVisible]="visible()"
+  [nzFooter]="null"
+  [nzClosable]="false"
+  [nzCentered]="true"
+  nzWidth="480px"
+  (nzOnCancel)="onCancel()"
+>
+  <ng-container *nzModalContent>
+    <button type="button" class="close-btn" (click)="onCancel()" aria-label="Schließen">
+      <nz-icon nzType="close" nzTheme="outline" />
+    </button>
+
+    <h2 class="modal-title">{{ isEdit ? 'Möbelstück bearbeiten' : 'Möbelstück markieren' }}</h2>
+    <p class="modal-subtitle">Welches Möbelstück hast du ausgewählt?</p>
+
+    <div class="chip-grid">
+      @for (item of commonItems; track item) {
+        <button
+          type="button"
+          class="chip"
+          [class.selected]="label() === item"
+          (click)="pick(item)"
+        >
+          {{ item }}
+        </button>
+      }
+    </div>
+
+    <input
+      nz-input
+      class="name-input"
+      placeholder="oder eigenen Namen eingeben…"
+      [ngModel]="label()"
+      (ngModelChange)="label.set($event)"
+    />
+
+    <label class="field-label" for="replacement">Womit möchtest du es ersetzen?</label>
+    <textarea
+      nz-input
+      id="replacement"
+      rows="3"
+      placeholder="z. B. „helles Boucle-Sofa im skandinavischen Stil“"
+      [ngModel]="replacement()"
+      (ngModelChange)="replacement.set($event)"
+    ></textarea>
+
+    <div class="modal-actions">
+      @if (isEdit) {
+        <button type="button" class="btn-danger" (click)="remove()">Entfernen</button>
+      } @else {
+        <span></span>
+      }
+      <button type="button" class="btn-primary" [disabled]="!label().trim()" (click)="confirm()">
+        {{ isEdit ? 'Speichern' : 'Hinzufügen' }}
+        <nz-icon nzType="check" nzTheme="outline" />
+      </button>
+    </div>
+  </ng-container>
+</nz-modal>

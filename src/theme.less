@@ -1,0 +1,49 @@
+// Roomly — custom dark theme for ng-zorro-antd.
+// Based on the built-in dark theme, re-tinted with the Roomly sage-green palette.
+// Variable overrides work because Less resolves variables with "last definition wins"
+// across the merged scope, so this order (theme → overrides → core) is what the
+// official ng-zorro-antd theming guide recommends.
+
+@root-entry-name: default;
+
+@import 'ng-zorro-antd/style/themes/dark.less';
+
+// ---- Roomly palette ----
+@primary-color: #8fae6f;
+@primary-color-hover: #a3c084;
+@primary-color-active: #75965a;
+@primary-color-outline: rgba(143, 174, 111, 0.2);
+
+@body-background: #16181c;
+@component-background: #1e2126;
+@popover-background: #23262c;
+
+@text-color: rgba(255, 255, 255, 0.92);
+@text-color-secondary: rgba(255, 255, 255, 0.58);
+@heading-color: rgba(255, 255, 255, 0.96);
+@disabled-color: rgba(255, 255, 255, 0.28);
+
+@border-color-base: #33373d;
+@border-color-split: #2a2d33;
+@item-hover-bg: rgba(255, 255, 255, 0.06);
+
+@border-radius-base: 12px;
+@font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  sans-serif;
+
+@modal-header-bg: @popover-background;
+@layout-body-background: @body-background;
+@layout-header-background: @popover-background;
+
+@import 'ng-zorro-antd/style/core/index';
+@import 'ng-zorro-antd/style/entry.less';
+
+// Only pull styles for the components Roomly actually uses (icon, modal, input,
+// upload, tooltip, message) instead of ng-zorro-antd's full components.less —
+// that alone cut the initial bundle by ~500kB and got us under the CLI budget.
+@import 'ng-zorro-antd/icon/style/entry.less';
+@import 'ng-zorro-antd/modal/style/entry.less';
+@import 'ng-zorro-antd/input/style/entry.less';
+@import 'ng-zorro-antd/upload/style/entry.less';
+@import 'ng-zorro-antd/tooltip/style/entry.less';
+@import 'ng-zorro-antd/message/style/entry.less';
