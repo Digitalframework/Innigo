@@ -1,0 +1,63 @@
+<div class="billing-page">
+  <header class="page-header">
+    <h1>Guthaben &amp; Tarife</h1>
+    <p>Kaufe Token oder erweitere deinen Tarif für mehr Generierungen.</p>
+  </header>
+
+  <section class="balance-card">
+    <span class="balance-icon"><nz-icon nzType="thunderbolt" nzTheme="outline" /></span>
+    <div>
+      <p class="balance-label">Aktuelles Guthaben</p>
+      <p class="balance-value">{{ userStore.tokens() }} <span>Token</span></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Token-Pakete</h2>
+    <div class="token-grid">
+      @for (pkg of tokenPackages; track pkg.tokens) {
+        <div class="token-card" [class.highlight]="pkg.highlight">
+          @if (pkg.highlight) {
+            <span class="badge">Beliebt</span>
+          }
+          <span class="token-icon"><nz-icon nzType="gift" nzTheme="outline" /></span>
+          <p class="token-amount">{{ pkg.tokens }}</p>
+          <p class="token-unit">Token</p>
+          <p class="token-price">{{ pkg.priceLabel }}</p>
+          <button type="button" class="btn-primary full-width" (click)="buyTokens(pkg.tokens)">
+            Kaufen
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Tarif</h2>
+    <div class="plan-grid">
+      @for (plan of plans; track plan.id) {
+        <div class="plan-card" [class.current]="userStore.planId() === plan.id">
+          @if (userStore.planId() === plan.id) {
+            <span class="badge">Aktueller Tarif</span>
+          }
+          <p class="plan-name">{{ plan.name }}</p>
+          <p class="plan-price">{{ plan.priceLabel }}</p>
+          <ul class="plan-features">
+            @for (feature of plan.features; track feature) {
+              <li><nz-icon nzType="check" nzTheme="outline" /> {{ feature }}</li>
+            }
+          </ul>
+          <button
+            type="button"
+            class="btn-primary full-width"
+            [class.btn-ghost]="userStore.planId() === plan.id"
+            [disabled]="userStore.planId() === plan.id"
+            (click)="upgrade(plan.id)"
+          >
+            {{ userStore.planId() === plan.id ? 'Aktueller Tarif' : 'Upgrade' }}
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+</div>
