@@ -247,6 +247,8 @@ export class FurniturePanel {
         style,
         // Wird nachgereicht, sobald der Content-Request durch ist.
         imageUrl: null,
+        imageWidthPx: image.widthPx,
+        imageHeightPx: image.heightPx,
       })),
     }));
     this.loadingCategories.update((list) => list.filter((entry) => entry !== category));

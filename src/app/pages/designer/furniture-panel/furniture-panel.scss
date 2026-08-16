@@ -270,7 +270,10 @@
 /* --- Möbel-Kacheln --- */
 .tile-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  // Zwei Spalten, solange die Sidebar breit genug ist. In der schmalen
+  // Mobilansicht fällt der Grid auf eine Spalte, statt die Kacheln unter die
+  // Größe zu quetschen, ab der man das Möbelstück nicht mehr erkennt.
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
   gap: 8px;
   margin: 6px 0 10px;
   padding-left: 14px;
@@ -311,10 +314,18 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  // Die Renderings kommen quadratisch aus dem Backend. Ein 4:3-Rahmen mit
+  // `cover` hat oben und unten abgeschnitten und den Rest hochskaliert — das
+  // war die Unschärfe. Quadratisch + `contain` zeigt das Möbelstück
+  // vollständig und immer verkleinert, nie vergrößert.
+  aspect-ratio: 1 / 1;
+  // Muss `auto` bleiben: die `width`/`height`-Attribute am <img> wirken sonst
+  // als Höhenvorgabe in Originalpixeln, und `aspect-ratio` greift nur, wenn
+  // eine der beiden Achsen automatisch bestimmt wird.
+  height: auto;
   border-radius: var(--rm-radius-sm);
   background: var(--rm-bg-panel-raised);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .tile-placeholder {

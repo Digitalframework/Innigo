@@ -180,7 +180,14 @@
                   <!-- Blob-URL aus /api/images/{id}/content; bis die geladen ist
                        (oder wenn sie fehlschlägt) steht der Platzhalter da. -->
                   @if (item.imageUrl) {
-                    <img class="tile-image" [src]="item.imageUrl" [alt]="item.name" />
+                    <img
+                      class="tile-image"
+                      [src]="item.imageUrl"
+                      [alt]="item.name"
+                      [attr.width]="item.imageWidthPx"
+                      [attr.height]="item.imageHeightPx"
+                      decoding="async"
+                    />
                   } @else {
                     <span class="tile-placeholder">
                       <nz-icon nzType="picture" nzTheme="outline" />

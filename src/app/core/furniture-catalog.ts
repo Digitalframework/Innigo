@@ -89,6 +89,15 @@ export interface CatalogItem {
    * TODO(API): hier kommt die Bild-URL vom Server rein.
    */
   imageUrl: string | null;
+  /**
+   * Maße des Originalbilds in Pixeln, falls bekannt.
+   *
+   * Landen als `width`/`height` am `<img>`: der Browser kennt damit die
+   * Eigengröße, bevor die Blob-URL da ist, und skaliert beim Verkleinern
+   * sauberer, als wenn er sie erst aus den Bytes lernt.
+   */
+  imageWidthPx?: number;
+  imageHeightPx?: number;
 }
 
 @Injectable({ providedIn: 'root' })
