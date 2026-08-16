@@ -1,5 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
 import {
+  CatalogSelection,
   DesignMode,
   FurnitureItem,
   GeneratedResult,
@@ -24,8 +25,23 @@ export class DesignerStore {
   readonly generationCount = signal<GenerationCount>(1);
   readonly isGenerating = signal(false);
   readonly results = signal<GeneratedResult[]>([]);
-  /** IDs der im Möbel-Panel angeklickten Katalogbilder. */
-  readonly catalogSelection = signal<string[]>([]);
+  /** Im Möbel-Panel angeklickte Katalogkacheln. */
+  readonly catalogSelection = signal<CatalogSelection[]>([]);
+
+  /** Kachel-IDs der Auswahl — für die Markierung im Panel. */
+  readonly catalogSelectionIds = computed(() => this.catalogSelection().map((entry) => entry.itemId));
+
+  /**
+   * Bild-IDs der ausgewählten Möbel, wie generation-backend sie kennt.
+   *
+   * Kacheln ohne `imageId` (Mock-Katalog) fallen raus — die Liste enthält
+   * damit nur IDs, die serverseitig auflösbar sind.
+   */
+  readonly selectedFurnitureImageIds = computed(() =>
+    this.catalogSelection()
+      .map((entry) => entry.imageId)
+      .filter((id): id is number => id !== null),
+  );
 
   readonly hasProject = computed(() => this.mode() !== null);
   readonly canGenerate = computed(() => {
@@ -63,10 +79,16 @@ export class DesignerStore {
     this.furniture.update((list) => list.filter((item) => item.id !== id));
   }
 
-  toggleCatalogItem(id: string): void {
+  toggleCatalogItem(item: CatalogSelection): void {
     this.catalogSelection.update((list) =>
-      list.includes(id) ? list.filter((item) => item !== id) : [...list, id],
+      list.some((entry) => entry.itemId === item.itemId)
+        ? list.filter((entry) => entry.itemId !== item.itemId)
+        : [...list, item],
     );
+  }
+
+  isCatalogItemSelected(itemId: string): boolean {
+    return this.catalogSelection().some((entry) => entry.itemId === itemId);
   }
 
   setGenerationCount(count: GenerationCount): void {

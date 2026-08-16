@@ -78,6 +78,13 @@ const MOCK_VARIANTS = ['Eiche natur', 'Anthrazit', 'Bouclé creme'];
 
 export interface CatalogItem {
   id: string;
+  /**
+   * ID des Möbelbilds in generation-backend (`GET /api/images/{id}`).
+   *
+   * Nur gesetzt, wenn die Kachel aus der API kommt — die Mock-Einträge unten
+   * haben keine Entsprechung dort und bleiben deshalb `undefined`.
+   */
+  imageId?: number;
   /** Anzeigename in der Sidebar */
   name: string;
   category: FurnitureCategory;

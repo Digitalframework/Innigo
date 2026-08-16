@@ -98,6 +98,15 @@ export class FurniturePanel {
   constructor() {
     this.destroyRef.onDestroy(() => this.revokeObjectUrls());
 
+    // DEBUG: Auswahl bei jeder Änderung ausgeben — wieder entfernen, sobald
+    // die IDs am Generierungs-Request hängen.
+    effect(() => {
+      console.log('[furniture-panel] Auswahl', {
+        imageIds: this.store.selectedFurnitureImageIds(),
+        items: this.store.catalogSelection(),
+      });
+    });
+
     // Ein Raumwechsel ändert die Treffermenge, also Cache verwerfen und die
     // offenen Kategorien neu laden.
     let loadedRoom: RoomType | null = null;
@@ -242,6 +251,7 @@ export class FurniturePanel {
       ...map,
       [category]: images.map((image) => ({
         id: String(image.id),
+        imageId: image.id,
         name: image.name,
         category,
         style,
@@ -322,11 +332,17 @@ export class FurniturePanel {
   }
 
   protected isSelected(item: CatalogItem): boolean {
-    return this.store.catalogSelection().includes(item.id);
+    return this.store.isCatalogItemSelected(item.id);
   }
 
   protected toggleItem(item: CatalogItem): void {
-    this.store.toggleCatalogItem(item.id);
+    this.store.toggleCatalogItem({
+      itemId: item.id,
+      // Mock-Kacheln haben kein Bild im Backend — `null` hält sie aus
+      // `selectedFurnitureImageIds` raus, statt eine erfundene ID zu liefern.
+      imageId: item.imageId ?? null,
+      name: item.name,
+    });
   }
 
   protected edit(item: FurnitureItem): void {

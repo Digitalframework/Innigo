@@ -42,6 +42,21 @@ export interface FurnitureItem {
   replacement: string;
 }
 
+/**
+ * Eine im Möbel-Panel angeklickte Katalogkachel.
+ *
+ * `itemId` ist die Identität in der Oberfläche, `imageId` die des Bilds in
+ * generation-backend. Beides getrennt zu halten ist nötig, weil der noch
+ * vorhandene Mock-Katalog Kacheln ohne serverseitiges Bild liefert — die
+ * tragen `imageId: null` und dürfen in keinen Request wandern.
+ */
+export interface CatalogSelection {
+  itemId: string;
+  imageId: number | null;
+  /** Anzeigename, damit die Auswahl ohne erneuten Katalogzugriff darstellbar ist. */
+  name: string;
+}
+
 export interface GeneratedResult {
   id: string;
   imageUrl: string;
