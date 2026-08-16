@@ -1,0 +1,419 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel {
+  background: var(--rm-bg-panel);
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-lg);
+  padding: 18px 20px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--rm-accent);
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--rm-border);
+  background: var(--rm-bg-inset);
+  color: var(--rm-text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    color: var(--rm-text-primary);
+    border-color: var(--rm-accent);
+  }
+
+  &.active {
+    background: var(--rm-accent-bg);
+    border-color: var(--rm-accent);
+    color: var(--rm-accent);
+  }
+}
+
+.filter-count {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.filter-panel {
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: var(--rm-radius-md);
+  background: var(--rm-bg-inset);
+  border: 1px solid var(--rm-border-subtle);
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filter-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--rm-border);
+  background: transparent;
+  color: var(--rm-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: var(--rm-accent);
+  }
+
+  &.selected {
+    background: var(--rm-accent-bg-strong);
+    border-color: var(--rm-accent);
+    color: var(--rm-accent);
+    font-weight: 700;
+  }
+}
+
+.filter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.filter-reset {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--rm-text-tertiary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--rm-accent);
+  }
+}
+
+.filter-collapse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--rm-border);
+  background: transparent;
+  color: var(--rm-text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--rm-accent);
+    color: var(--rm-accent);
+    background: var(--rm-accent-bg);
+  }
+}
+
+.filter-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--rm-accent);
+  background: var(--rm-accent-bg);
+  color: var(--rm-accent);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+
+  .summary-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background: var(--rm-accent-bg-strong);
+  }
+}
+
+.empty-hint {
+  margin: 4px 0 0;
+}
+
+// Abgesetzt vom leeren Ergebnis, weil beides an derselben Stelle steht und nur
+// die Farbe sagt, ob etwas schiefging oder die Kategorie schlicht leer ist.
+.error-hint {
+  margin: 4px 0 0;
+  color: #d4696a;
+
+  a {
+    margin-left: 6px;
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+.badge {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--rm-accent);
+  background: var(--rm-accent-bg);
+  border-radius: 999px;
+  padding: 2px 9px;
+  white-space: nowrap;
+}
+
+.panel-text {
+  color: var(--rm-text-secondary);
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin: 0 0 12px;
+
+  strong {
+    color: var(--rm-text-primary);
+    font-weight: 600;
+  }
+}
+
+/* --- Tree --- */
+.tree,
+.tile-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tree-node + .tree-node {
+  margin-top: 2px;
+}
+
+.tree-branch,
+.others-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--rm-text-primary);
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--rm-radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--rm-bg-hover);
+  }
+}
+
+.tree-branch {
+  padding: 8px 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.caret {
+  color: var(--rm-text-tertiary);
+  font-size: 11px;
+  transition: transform 0.15s ease;
+
+  &.open {
+    transform: rotate(90deg);
+  }
+}
+
+.branch-label {
+  flex: 1;
+}
+
+.branch-count {
+  font-size: 11.5px;
+  color: var(--rm-text-tertiary);
+}
+
+/* --- Möbel-Kacheln --- */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 6px 0 10px;
+  padding-left: 14px;
+  border-left: 1px solid var(--rm-border-subtle);
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 6px;
+  border-radius: var(--rm-radius-md);
+  border: 1px solid var(--rm-border);
+  background: var(--rm-bg-inset);
+  color: var(--rm-text-secondary);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: var(--rm-accent);
+    color: var(--rm-text-primary);
+  }
+
+  &.selected {
+    border-color: var(--rm-accent);
+    background: var(--rm-accent-bg);
+    color: var(--rm-text-primary);
+  }
+}
+
+/* Grauer Platzhalter, bis das Produktbild vom Server kommt */
+.tile-placeholder,
+.tile-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--rm-radius-sm);
+  background: var(--rm-bg-panel-raised);
+  object-fit: cover;
+}
+
+.tile-placeholder {
+  color: var(--rm-text-tertiary);
+  font-size: 18px;
+}
+
+.tile-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--rm-accent);
+  color: var(--rm-accent-contrast);
+  font-size: 11px;
+}
+
+.tile-label {
+  font-size: 11.5px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.others-toggle {
+  margin-top: 8px;
+  padding: 8px 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--rm-text-tertiary);
+
+  &:hover {
+    color: var(--rm-text-secondary);
+  }
+}
+
+/* --- Möbel-Modus: markierte Möbelstücke --- */
+.furniture-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.furniture-list-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 10px;
+  border-radius: var(--rm-radius-sm);
+  background: var(--rm-bg-inset);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  .check {
+    color: var(--rm-accent);
+    font-size: 13px;
+  }
+
+  .furniture-entry {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .furniture-name {
+    font-size: 13.5px;
+    color: var(--rm-text-primary);
+    font-weight: 500;
+  }
+
+  .furniture-replacement {
+    font-size: 12px;
+    color: var(--rm-text-tertiary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .edit-icon {
+    color: var(--rm-text-tertiary);
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  &:hover {
+    background: var(--rm-bg-hover);
+
+    .edit-icon {
+      opacity: 1;
+    }
+  }
+}

@@ -11,6 +11,7 @@ import { BoundingBox, FurnitureItem, GenerationCount, RoomType, StyleType } from
 import { ModeSelectModal } from './mode-select-modal/mode-select-modal';
 import { RoomStyleModal } from './room-style-modal/room-style-modal';
 import { FurnitureBoxModal, FurnitureDraft } from './furniture-box-modal/furniture-box-modal';
+import { FurniturePanel } from './furniture-panel/furniture-panel';
 import { LoadingOverlay } from './loading-overlay/loading-overlay';
 
 function clamp(value: number, min: number, max: number): number {
@@ -26,6 +27,7 @@ function clamp(value: number, min: number, max: number): number {
     ModeSelectModal,
     RoomStyleModal,
     FurnitureBoxModal,
+    FurniturePanel,
     LoadingOverlay,
   ],
   templateUrl: './designer-page.html',
@@ -65,7 +67,9 @@ export class DesignerPage {
     const id = this.editingFurnitureId();
     if (!id) return null;
     const item = this.store.furniture().find((f) => f.id === id);
-    return item ? { label: item.label, replacement: item.replacement } : null;
+    return item
+      ? { label: item.label, replaceMode: item.replaceMode, replacement: item.replacement }
+      : null;
   });
 
   protected readonly beforeUpload = (file: NzUploadFile): boolean => {

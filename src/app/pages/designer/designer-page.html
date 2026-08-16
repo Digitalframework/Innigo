@@ -43,29 +43,7 @@
       </p>
     </section>
 
-    @if (store.mode() === 'furniture') {
-      <section class="panel">
-        <div class="panel-header">
-          <span class="panel-title"><nz-icon nzType="check-circle" nzTheme="fill" /> Ausgewählte Möbel</span>
-        </div>
-
-        @if (store.furniture().length === 0) {
-          <p class="panel-text">
-            Aktiviere das Auswahl-Werkzeug unten und ziehe einen Rahmen um ein Möbelstück im Bild.
-          </p>
-        } @else {
-          <ul class="furniture-list">
-            @for (item of store.furniture(); track item.id) {
-              <li class="furniture-list-item" (click)="editFurniture(item)">
-                <nz-icon nzType="check" nzTheme="outline" class="check" />
-                <span class="furniture-name">{{ item.label }}</span>
-                <nz-icon nzType="edit" nzTheme="outline" class="edit-icon" />
-              </li>
-            }
-          </ul>
-        }
-      </section>
-    }
+    <app-furniture-panel (editRequested)="editFurniture($event)" />
   </aside>
 
   <section class="canvas-card">
@@ -168,6 +146,20 @@
       </div>
 
       <div class="bottom-right-panel">
+        <div class="generate-actions">
+          @if (store.results().length > 0) {
+            <button type="button" class="btn-ghost" (click)="newUpload()">Neues Bild</button>
+          }
+          <button
+            type="button"
+            class="btn-generate"
+            [disabled]="!store.canGenerate() || store.isGenerating()"
+            (click)="generate()"
+          >
+            ✨ {{ store.results().length > 0 ? 'Neu generieren' : 'Generieren' }}
+          </button>
+        </div>
+
         <div class="generation-count">
           <span class="generation-label">Bildgenerierungen</span>
           <div class="count-options">
@@ -182,20 +174,6 @@
               </button>
             }
           </div>
-        </div>
-
-        <div class="generate-actions">
-          @if (store.results().length > 0) {
-            <button type="button" class="btn-ghost" (click)="newUpload()">Neues Bild</button>
-          }
-          <button
-            type="button"
-            class="btn-generate"
-            [disabled]="!store.canGenerate() || store.isGenerating()"
-            (click)="generate()"
-          >
-            ✨ {{ store.results().length > 0 ? 'Neu generieren' : 'Generieren' }}
-          </button>
         </div>
       </div>
     }

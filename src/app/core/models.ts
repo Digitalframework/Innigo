@@ -30,10 +30,15 @@ export interface BoundingBox {
   height: number;
 }
 
+/** Womit ein markiertes Möbelstück ersetzt wird: gleiche Art, oder frei benannt. */
+export type ReplaceMode = 'same' | 'custom';
+
 export interface FurnitureItem {
   id: string;
   label: string;
   box: BoundingBox;
+  replaceMode: ReplaceMode;
+  /** Nur bei `replaceMode === 'custom'` gefüllt. */
   replacement: string;
 }
 

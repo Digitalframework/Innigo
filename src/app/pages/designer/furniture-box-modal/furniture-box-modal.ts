@@ -1,11 +1,14 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 
+import { ReplaceMode } from '../../../core/models';
+
 export interface FurnitureDraft {
   label: string;
+  replaceMode: ReplaceMode;
   replacement: string;
 }
 
@@ -39,17 +42,31 @@ export class FurnitureBoxModal {
 
   protected readonly commonItems = COMMON_FURNITURE;
   protected readonly label = signal('');
+  protected readonly replaceMode = signal<ReplaceMode>('same');
   protected readonly replacement = signal('');
 
   protected get isEdit(): boolean {
     return this.initial() !== null;
   }
 
+  /** „ein anderes Bett“ bzw. neutral, solange nichts gewählt ist */
+  protected readonly sameLabel = computed(() => {
+    const label = this.label().trim();
+    return label ? `Durch ein anderes ${label} ersetzen` : 'Durch ein ähnliches Möbelstück ersetzen';
+  });
+
+  protected readonly canConfirm = computed(() => {
+    if (!this.label().trim()) return false;
+    if (this.replaceMode() === 'custom') return !!this.replacement().trim();
+    return true;
+  });
+
   constructor() {
     effect(() => {
       if (this.visible()) {
         const initial = this.initial();
         this.label.set(initial?.label ?? '');
+        this.replaceMode.set(initial?.replaceMode ?? 'same');
         this.replacement.set(initial?.replacement ?? '');
       }
     });
@@ -59,10 +76,18 @@ export class FurnitureBoxModal {
     this.label.set(item);
   }
 
+  setReplaceMode(mode: ReplaceMode): void {
+    this.replaceMode.set(mode);
+  }
+
   confirm(): void {
-    const label = this.label().trim();
-    if (!label) return;
-    this.confirmed.emit({ label, replacement: this.replacement().trim() });
+    if (!this.canConfirm()) return;
+    const mode = this.replaceMode();
+    this.confirmed.emit({
+      label: this.label().trim(),
+      replaceMode: mode,
+      replacement: mode === 'custom' ? this.replacement().trim() : '',
+    });
   }
 
   remove(): void {

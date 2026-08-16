@@ -24,6 +24,8 @@ export class DesignerStore {
   readonly generationCount = signal<GenerationCount>(1);
   readonly isGenerating = signal(false);
   readonly results = signal<GeneratedResult[]>([]);
+  /** IDs der im Möbel-Panel angeklickten Katalogbilder. */
+  readonly catalogSelection = signal<string[]>([]);
 
   readonly hasProject = computed(() => this.mode() !== null);
   readonly canGenerate = computed(() => {
@@ -61,6 +63,12 @@ export class DesignerStore {
     this.furniture.update((list) => list.filter((item) => item.id !== id));
   }
 
+  toggleCatalogItem(id: string): void {
+    this.catalogSelection.update((list) =>
+      list.includes(id) ? list.filter((item) => item !== id) : [...list, id],
+    );
+  }
+
   setGenerationCount(count: GenerationCount): void {
     this.generationCount.set(count);
   }
@@ -72,6 +80,7 @@ export class DesignerStore {
     this.style.set(null);
     this.furniture.set([]);
     this.results.set([]);
+    this.catalogSelection.set([]);
     this.isGenerating.set(false);
   }
 }

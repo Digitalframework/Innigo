@@ -1,6 +1,8 @@
 import {
+  AppstoreOutline,
   ArrowRightOutline,
   CameraOutline,
+  CaretRightOutline,
   CheckCircleFill,
   CheckOutline,
   CloseOutline,
@@ -9,8 +11,10 @@ import {
   CrownOutline,
   DownloadOutline,
   DownOutline,
+  DragOutline,
   EditOutline,
   EnvironmentOutline,
+  FilterOutline,
   FontSizeOutline,
   GiftOutline,
   HomeOutline,
@@ -26,14 +30,17 @@ import {
   StarOutline,
   ThunderboltOutline,
   UploadOutline,
+  UpOutline,
   UserOutline,
   WalletOutline,
 } from '@ant-design/icons-angular/icons';
 import type { IconDefinition } from '@ant-design/icons-angular';
 
 export const ROOMLY_ICONS: IconDefinition[] = [
+  AppstoreOutline,
   ArrowRightOutline,
   CameraOutline,
+  CaretRightOutline,
   CheckCircleFill,
   CheckOutline,
   CloseOutline,
@@ -42,8 +49,10 @@ export const ROOMLY_ICONS: IconDefinition[] = [
   CrownOutline,
   DownloadOutline,
   DownOutline,
+  DragOutline,
   EditOutline,
   EnvironmentOutline,
+  FilterOutline,
   FontSizeOutline,
   GiftOutline,
   HomeOutline,
@@ -59,6 +68,7 @@ export const ROOMLY_ICONS: IconDefinition[] = [
   StarOutline,
   ThunderboltOutline,
   UploadOutline,
+  UpOutline,
   UserOutline,
   WalletOutline,
 ];

@@ -27,23 +27,47 @@
       }
     </div>
 
-    <input
-      nz-input
-      class="name-input"
-      placeholder="oder eigenen Namen eingeben…"
-      [ngModel]="label()"
-      (ngModelChange)="label.set($event)"
-    />
+    <span class="field-label">Womit möchtest du es ersetzen?</span>
+    <div class="replace-options">
+      <button
+        type="button"
+        class="replace-option"
+        [class.selected]="replaceMode() === 'same'"
+        (click)="setReplaceMode('same')"
+      >
+        <nz-icon
+          class="option-icon"
+          [nzType]="replaceMode() === 'same' ? 'check-circle' : 'plus-circle'"
+          nzTheme="outline"
+        />
+        {{ sameLabel() }}
+      </button>
+      <button
+        type="button"
+        class="replace-option"
+        [class.selected]="replaceMode() === 'custom'"
+        (click)="setReplaceMode('custom')"
+      >
+        <nz-icon
+          class="option-icon"
+          [nzType]="replaceMode() === 'custom' ? 'check-circle' : 'plus-circle'"
+          nzTheme="outline"
+        />
+        Mit etwas anderem ersetzen
+      </button>
+    </div>
 
-    <label class="field-label" for="replacement">Womit möchtest du es ersetzen?</label>
-    <textarea
-      nz-input
-      id="replacement"
-      rows="3"
-      placeholder="z. B. „helles Boucle-Sofa im skandinavischen Stil“"
-      [ngModel]="replacement()"
-      (ngModelChange)="replacement.set($event)"
-    ></textarea>
+    @if (replaceMode() === 'custom') {
+      <textarea
+        nz-input
+        id="replacement"
+        rows="3"
+        class="replacement-input"
+        placeholder="z. B. „helles Boucle-Sofa im skandinavischen Stil“"
+        [ngModel]="replacement()"
+        (ngModelChange)="replacement.set($event)"
+      ></textarea>
+    }
 
     <div class="modal-actions">
       @if (isEdit) {
@@ -51,7 +75,7 @@
       } @else {
         <span></span>
       }
-      <button type="button" class="btn-primary" [disabled]="!label().trim()" (click)="confirm()">
+      <button type="button" class="btn-primary" [disabled]="!canConfirm()" (click)="confirm()">
         {{ isEdit ? 'Speichern' : 'Hinzufügen' }}
         <nz-icon nzType="check" nzTheme="outline" />
       </button>

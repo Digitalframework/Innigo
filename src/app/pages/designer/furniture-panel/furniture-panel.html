@@ -1,0 +1,205 @@
+@if (store.mode() === 'furniture') {
+  <section class="panel">
+    <div class="panel-header">
+      <span class="panel-title">
+        <nz-icon nzType="check-circle" nzTheme="fill" /> Zu ersetzende Möbel
+      </span>
+    </div>
+
+    @if (store.furniture().length === 0) {
+      <p class="panel-text">
+        Aktiviere das Auswahl-Werkzeug unten und ziehe einen Rahmen um ein Möbelstück im Bild.
+      </p>
+    } @else {
+      <ul class="furniture-list">
+        @for (item of store.furniture(); track item.id) {
+          <li class="furniture-list-item" (click)="edit(item)">
+            <nz-icon nzType="check" nzTheme="outline" class="check" />
+            <span class="furniture-entry">
+              <span class="furniture-name">{{ item.label }}</span>
+              <span class="furniture-replacement">
+                @if (item.replaceMode === 'custom') {
+                  → {{ item.replacement }}
+                } @else {
+                  → anderes {{ item.label }}
+                }
+              </span>
+            </span>
+            <nz-icon nzType="edit" nzTheme="outline" class="edit-icon" />
+          </li>
+        }
+      </ul>
+    }
+  </section>
+}
+
+@if (store.mode()) {
+  <section class="panel">
+    <div class="panel-header">
+      <span class="panel-title">
+        <nz-icon nzType="appstore" nzTheme="outline" /> Möbel
+      </span>
+      <span class="header-actions">
+        @if (store.catalogSelection().length > 0) {
+          <span class="badge">{{ store.catalogSelection().length }} gewählt</span>
+        }
+        <button
+          type="button"
+          class="filter-btn"
+          [class.active]="showFilter() || filter().length > 0"
+          [attr.aria-expanded]="showFilter()"
+          title="Nach Möbelstücken filtern"
+          (click)="toggleFilterPanel()"
+        >
+          <nz-icon nzType="filter" nzTheme="outline" />
+          @if (filter().length > 0) {
+            <span class="filter-count">{{ filter().length }}</span>
+          }
+        </button>
+      </span>
+    </div>
+
+    @if (showFilter()) {
+      <div class="filter-panel">
+        <div class="filter-chips">
+          @for (category of allCategories; track category) {
+            <button
+              type="button"
+              class="filter-chip"
+              [class.selected]="isFiltered(category)"
+              (click)="toggleFilterCategory(category)"
+            >
+              {{ categoryLabels[category] }}
+            </button>
+          }
+        </div>
+
+        <div class="filter-footer">
+          @if (filter().length > 0) {
+            <button type="button" class="filter-reset" (click)="clearFilter()">
+              Filter zurücksetzen
+            </button>
+          } @else {
+            <span></span>
+          }
+          <button
+            type="button"
+            class="filter-collapse"
+            title="Filter zuklappen"
+            aria-label="Filter zuklappen"
+            (click)="toggleFilterPanel()"
+          >
+            <nz-icon nzType="up" nzTheme="outline" />
+          </button>
+        </div>
+      </div>
+    } @else if (filter().length > 0) {
+      <button
+        type="button"
+        class="filter-summary"
+        title="Filter aufklappen"
+        (click)="toggleFilterPanel()"
+      >
+        <span class="summary-text">{{ activeFilterLabels() }}</span>
+        <nz-icon nzType="down" nzTheme="outline" />
+      </button>
+    }
+
+    <p class="panel-text">
+      @if (store.mode() === 'furniture') {
+        Passend zu den markierten Möbelstücken
+      } @else if (store.room()) {
+        Passend zu <strong>{{ store.room() }}</strong>
+        @if (store.style()) {
+          im Stil <strong>{{ store.style() }}</strong>
+        }
+      } @else {
+        Wähle Raum und Stil, um passende Möbel zu sehen.
+      }
+    </p>
+
+    <!-- Die Möbelstücke kommen beim Aufklappen aus GET /api/images; die
+         Kategorieliste selbst ist noch lokal, siehe FurnitureCatalogService. -->
+    <ng-container *ngTemplateOutlet="tree; context: { $implicit: primaryNodes() }" />
+
+    <button type="button" class="others-toggle" (click)="toggleOthers()">
+      <nz-icon
+        class="caret"
+        [class.open]="othersVisible()"
+        nzType="caret-right"
+        nzTheme="outline"
+      />
+      Weitere Möbel
+    </button>
+
+    @if (othersVisible()) {
+      <ng-container *ngTemplateOutlet="tree; context: { $implicit: otherNodes() }" />
+    }
+  </section>
+}
+
+<ng-template #tree let-nodes>
+  <ul class="tree">
+    @for (node of nodes; track node.category) {
+      <li class="tree-node">
+        <button type="button" class="tree-branch" (click)="toggleCategory(node.category)">
+          <nz-icon
+            class="caret"
+            [class.open]="isExpanded(node.category)"
+            nzType="caret-right"
+            nzTheme="outline"
+          />
+          <span class="branch-label">{{ node.label }}</span>
+          @if (isLoaded(node.category)) {
+            <span class="branch-count">{{ node.items.length }}</span>
+          }
+        </button>
+
+        @if (isExpanded(node.category)) {
+          @if (isLoading(node.category)) {
+            <p class="panel-text empty-hint">Möbel werden geladen …</p>
+          } @else if (loadError(node.category); as error) {
+            <p class="panel-text error-hint">
+              {{ error }}
+              @if (needsLogin(node.category)) {
+                <a [href]="loginUrl" target="_blank" rel="noopener">Jetzt anmelden</a>
+              }
+            </p>
+          } @else if (node.items.length === 0) {
+            <p class="panel-text empty-hint">Keine Möbel in dieser Kategorie.</p>
+          }
+          <ul class="tile-grid">
+            @for (item of node.items; track item.id) {
+              <li>
+                <button
+                  type="button"
+                  class="tile"
+                  [class.selected]="isSelected(item)"
+                  (click)="toggleItem(item)"
+                >
+                  <!-- Blob-URL aus /api/images/{id}/content; bis die geladen ist
+                       (oder wenn sie fehlschlägt) steht der Platzhalter da. -->
+                  @if (item.imageUrl) {
+                    <img class="tile-image" [src]="item.imageUrl" [alt]="item.name" />
+                  } @else {
+                    <span class="tile-placeholder">
+                      <nz-icon nzType="picture" nzTheme="outline" />
+                    </span>
+                  }
+                  @if (isSelected(item)) {
+                    <span class="tile-check">
+                      <nz-icon nzType="check" nzTheme="outline" />
+                    </span>
+                  }
+                  <span class="tile-label">{{ item.name }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </li>
+    } @empty {
+      <p class="panel-text empty-hint">Keine Möbel für diesen Filter.</p>
+    }
+  </ul>
+</ng-template>
